@@ -18,7 +18,7 @@ const PlantDetails = () => {
   };
 
   const {
-    data: plant = [],
+    data: plant = {},
     isLoading,
     refetch,
   } = useQuery({
@@ -30,7 +30,7 @@ const PlantDetails = () => {
       return data;
     },
   });
-  console.log(plant);
+
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
   }
