@@ -30,11 +30,9 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }) => {
     price: totalPrice,
     quantity: totalQuantity,
     seller: seller?.email,
-    address: "",
     status: "Pending",
   });
 
-  // Total Price Calculation
   const handleQuantity = (value) => {
     if (value > quantity) {
       setTotalQuantity(quantity);
@@ -59,6 +57,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }) => {
       //decrease quantity from plantCollection
       await axiosSecure.patch(`/plants/quantity/${_id}`, {
         quantityToUpdate: totalQuantity,
+        status: "decrease",
       });
       toast.success("order successful");
       refetch();
