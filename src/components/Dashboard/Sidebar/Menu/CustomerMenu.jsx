@@ -8,20 +8,22 @@ import useAuth from "../../../../hooks/useAuth";
 import toast from "react-hot-toast";
 const CustomerMenu = () => {
   const { user } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
+  const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
   };
-  const requestSeller = async () => {
+
+  const requestHandler = async () => {
     try {
       // send a request to server
       const { data } = await axiosSecure.patch(`/users/${user?.email}`);
       console.log(data);
-      toast.success("Successfully Applied for Become a Seller 👍");
-    } catch (error) {
-      toast.error(error.response.data);
+      toast.success("Successfully Applied to become a seller👍");
+    } catch (err) {
+      console.log(err.response.data);
+      toast.error(err.response.data + "👊");
     } finally {
       closeModal();
     }
@@ -41,7 +43,7 @@ const CustomerMenu = () => {
       </button>
 
       <BecomeSellerModal
-        requestSeller={requestSeller}
+        requestHandler={requestHandler}
         closeModal={closeModal}
         isOpen={isOpen}
       />

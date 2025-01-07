@@ -1,18 +1,22 @@
 import { Helmet } from "react-helmet-async";
 import AddPlantForm from "../../../components/Form/AddPlantForm";
-import imageUpload from "../../../api/utils";
-import { useContext, useState } from "react";
+import { imageUpload } from "../../../api/utils";
 import useAuth from "../../../hooks/useAuth";
-import axios from "axios";
+import { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddPlant = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
-  const [uploadButtonTExt, setUploadButtonText] = useState("upload image");
-  const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
-
+  const [uploadImage, setUploadImage] = useState({
+    image: { name: "Upload Button" },
+  });
+  console.log(uploadImage);
+  const [loading, setLoading] = useState(false);
+  // handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -25,31 +29,33 @@ const AddPlant = () => {
     const image = form.image.files[0];
     const imageUrl = await imageUpload(image);
 
-    //seller info
+    // seller info
     const seller = {
       name: user?.displayName,
       image: user?.photoURL,
       email: user?.email,
     };
 
-    //create plant data in object
+    // Create plant data object
     const plantData = {
       name,
-      description,
       category,
+      description,
       price,
       quantity,
-      imageUrl,
+      image: imageUrl,
       seller,
     };
-    console.table(plantData);
 
-    //save plat in db
+    console.table(plantData);
+    // save plant in db
     try {
+      // post req
       await axiosSecure.post("/plants", plantData);
-      toast.success("data added successfully");
-    } catch (error) {
-      console.log(error);
+      toast.success("Data Added Successfully!");
+      navigate("/dashboard/my-inventory");
+    } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -63,8 +69,8 @@ const AddPlant = () => {
       {/* Form */}
       <AddPlantForm
         handleSubmit={handleSubmit}
-        uploadButtonTExt={uploadButtonTExt}
-        setUploadButtonText={setUploadButtonText}
+        uploadImage={uploadImage}
+        setUploadImage={setUploadImage}
         loading={loading}
       />
     </div>

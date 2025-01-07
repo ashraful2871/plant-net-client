@@ -34,8 +34,7 @@ const PlantDetails = () => {
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
   }
-  const { imageUrl, category, description, name, price, quantity, seller } =
-    plant;
+  const { image, category, description, name, price, quantity, seller } = plant;
   return (
     <Container>
       <Helmet>
@@ -48,7 +47,7 @@ const PlantDetails = () => {
             <div className="w-full overflow-hidden rounded-xl">
               <img
                 className="object-cover w-full"
-                src={imageUrl}
+                src={image}
                 alt="header image"
               />
             </div>

@@ -11,8 +11,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
-  if (user) return <Navigate to={from} replace={true} />;
   if (loading) return <LoadingSpinner />;
+  if (user) return <Navigate to={from} replace={true} />;
   // form submit handler
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,8 +36,8 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      const { data } = await signInWithGoogle();
-      //save user info in database
+      const data = await signInWithGoogle();
+      // save user info in db if the user is new
       await saveUser(data?.user);
       navigate(from, { replace: true });
       toast.success("Login Successful");
