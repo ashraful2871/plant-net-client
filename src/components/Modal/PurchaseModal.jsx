@@ -7,7 +7,6 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import Button from "../Shared/Button/Button";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -166,14 +165,14 @@ const PurchaseModal = ({ closeModal, isOpen, plant, refetch }) => {
                 </div>
                 {/* checkOut form */}
                 <Elements stripe={stripePromise}>
-                  <CheckoutForm></CheckoutForm>
+                  <CheckoutForm
+                    closeModal={closeModal}
+                    purchaseInfo={purchaseInfo}
+                    refetch={refetch}
+                    totalQuantity={totalQuantity}
+                  ></CheckoutForm>
                 </Elements>
-                <div className="mt-3">
-                  <Button
-                    onClick={handlePurchase}
-                    label={`pay ${totalPrice}$`}
-                  ></Button>
-                </div>
+                <div className="mt-3"></div>
               </DialogPanel>
             </TransitionChild>
           </div>
